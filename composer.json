@@ -2,6 +2,7 @@
     "name": "svenjuergens/url-transformer",
     "type": "typo3-cms-extension",
     "description": "Transform a URL to LowerCase and redirect to the new URL",
+    "license": "GPL-2.0-or-later",
     "authors": [
         {
             "name": "Sven Juergens",
