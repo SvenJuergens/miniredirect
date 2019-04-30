@@ -1,0 +1,24 @@
+{
+    "name": "svenjuergens/url-transformer",
+    "type": "typo3-cms-extension",
+    "description": "Transform a URL to LowerCase and redirect to the new URL",
+    "authors": [
+        {
+            "name": "Sven Juergens",
+            "role": "Developer"
+        }
+    ],
+    "version": "1.0.0",
+    "require": {
+        "typo3/cms-core": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "SvenJuergens\\UrlTransformer\\": "Classes"
+        }
+    },
+    "replace": {
+        "url_transformer": "self.version",
+        "typo3-ter/url-transformer": "self.version"
+    }
+}
