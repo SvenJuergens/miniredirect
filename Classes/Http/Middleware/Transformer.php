@@ -44,7 +44,9 @@ class Transformer implements MiddlewareInterface, LoggerAwareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $requestPath = mb_strtolower($request->getUri()->getPath(), 'UTF-8');
+        $requestPath = urldecode($request->getUri()->getPath());
+        $requestPath = mb_strtolower($requestPath, 'UTF-8');
+        $requestPath = str_replace(['ä','ü','ö'], ['ae', 'ue', 'oe'], $requestPath);
         if ($requestPath !== $request->getUri()->getPath()) {
             $uri = new Uri(GeneralUtility::locationHeaderUrl($requestPath));
             return $this->buildRedirectResponse($uri);
