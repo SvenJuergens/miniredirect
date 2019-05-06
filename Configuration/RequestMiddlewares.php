@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Definitions for middlewares provided by EXT:url_transformer
+ * Definitions for middlewares provided by EXT:miniredirect
  */
 return [
     'frontend' => [
-        'svenjuergens/urltransformer' => [
-            'target' => \SvenJuergens\UrlTransformer\Http\Middleware\Transformer::class,
+        'svenjuergens/miniredirect' => [
+            'target' => \SvenJuergens\Miniredirect\Http\Middleware\MiniRedirect::class,
             'before' => [
                 'typo3/cms-frontend/page-resolver',
             ],

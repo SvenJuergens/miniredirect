@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-namespace SvenJuergens\UrlTransformer\Http\Middleware;
+namespace SvenJuergens\Miniredirect\Http\Middleware;
 
 /*
  * This file is part of the TYPO3 CMS project.
@@ -31,7 +31,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * If so, a redirect response is triggered.
  *
  */
-class Transformer implements MiddlewareInterface, LoggerAwareInterface
+class MiniRedirect implements MiddlewareInterface, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
@@ -65,7 +65,7 @@ class Transformer implements MiddlewareInterface, LoggerAwareInterface
         return new RedirectResponse(
             $uri,
             301,
-            ['X-Redirect-By' => 'TYPO3 Redirect url transformer']
+            ['X-Redirect-By' => 'TYPO3 Redirect by Miniredirect']
         );
     }
 }
