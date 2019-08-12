@@ -22,6 +22,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -41,14 +42,25 @@ class MiniRedirect implements MiddlewareInterface, LoggerAwareInterface
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface $handler
      * @return ResponseInterface
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $requestPath = urldecode($request->getUri()->getPath());
-        $requestPath = mb_strtolower($requestPath, 'UTF-8');
+        $originalRequestPath = urldecode($request->getUri()->getPath());
+        $requestPath = mb_strtolower($originalRequestPath, 'UTF-8');
         $requestPath = str_replace(['ä','ü','ö','ß'], ['ae', 'ue', 'oe', 'ss'], $requestPath);
         if ($requestPath !== $request->getUri()->getPath()) {
             $uri = new Uri(GeneralUtility::locationHeaderUrl($requestPath));
+            if((bool)GeneralUtility::makeInstance(ExtensionConfiguration::class)
+                ->get('miniredirect', 'useLogging')
+            ){
+                $this->logger->info('miniredirect', [
+                    'originalRequestPath' => htmlspecialchars($originalRequestPath),
+                    'uri' => $uri->getPath(),
+                    'referrer' => $request->getServerParams()['HTTP_REFERER'] ?? ''
+                ]);
+            }
             return $this->buildRedirectResponse($uri);
         }
         return $handler->handle($request);
