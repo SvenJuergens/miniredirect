@@ -46,7 +46,7 @@ class MiniRedirect implements MiddlewareInterface, LoggerAwareInterface
     {
         $requestPath = urldecode($request->getUri()->getPath());
         $requestPath = mb_strtolower($requestPath, 'UTF-8');
-        $requestPath = str_replace(['ä','ü','ö'], ['ae', 'ue', 'oe'], $requestPath);
+        $requestPath = str_replace(['ä','ü','ö','ß'], ['ae', 'ue', 'oe', 'ss'], $requestPath);
         if ($requestPath !== $request->getUri()->getPath()) {
             $uri = new Uri(GeneralUtility::locationHeaderUrl($requestPath));
             return $this->buildRedirectResponse($uri);
