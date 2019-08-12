@@ -1,7 +1,7 @@
 {
     "name": "svenjuergens/miniredirect",
     "type": "typo3-cms-extension",
-    "description": "A url with uppercase letters or umlauts is forwarded to the lowercase URL with ae, oe, ue replacements",
+    "description": "A url with uppercase letters or umlauts is forwarded to the lowercase URL with ae, oe, ue, ss replacements",
     "license": "GPL-2.0-or-later",
     "authors": [
         {
@@ -9,7 +9,7 @@
             "role": "Developer"
         }
     ],
-    "version": "2.0.0",
+    "version": "2.1.0",
     "require": {
         "typo3/cms-core": "^9.5"
     },
