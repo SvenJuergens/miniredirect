@@ -56,7 +56,7 @@ class MiniRedirect implements MiddlewareInterface, LoggerAwareInterface
                 ->get('miniredirect', 'useLogging')
             ){
                 $this->logger->info('miniredirect', [
-                    'originalRequestPath' => htmlspecialchars($originalRequestPath),
+                    'originalRequestPath' => $request->getUri()->getHost() . htmlspecialchars($originalRequestPath),
                     'uri' => $uri->getPath(),
                     'referrer' => $request->getServerParams()['HTTP_REFERER'] ?? ''
                 ]);
