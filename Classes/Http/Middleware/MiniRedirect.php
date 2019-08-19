@@ -47,6 +47,10 @@ class MiniRedirect implements MiddlewareInterface, LoggerAwareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        // don't handle spaces in path
+        if(strpos($request->getUri()->getPath(), '%20') !== false){
+            return $handler->handle($request);
+        }
         $originalRequestPath = urldecode($request->getUri()->getPath());
         $requestPath = mb_strtolower($originalRequestPath, 'UTF-8');
         $requestPath = str_replace(['ä','ü','ö','ß'], ['ae', 'ue', 'oe', 'ss'], $requestPath);
