@@ -51,6 +51,11 @@ class MiniRedirect implements MiddlewareInterface, LoggerAwareInterface
         if(strpos($request->getUri()->getPath(), '%20') !== false){
             return $handler->handle($request);
         }
+
+        // don't handle files
+        if(pathinfo($request->getUri()->getPath(), PATHINFO_EXTENSION)){
+            return $handler->handle($request);
+        }
         $originalRequestPath = urldecode($request->getUri()->getPath());
         $requestPath = mb_strtolower($originalRequestPath, 'UTF-8');
         $requestPath = str_replace(['ä','ü','ö','ß'], ['ae', 'ue', 'oe', 'ss'], $requestPath);
