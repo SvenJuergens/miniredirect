@@ -10,16 +10,12 @@
         }
     ],
     "require": {
-        "typo3/cms-core": "^9.5"
+        "typo3/cms-core": "^9.5 || ^10.4 || ^11.2"
     },
     "autoload": {
         "psr-4": {
             "SvenJuergens\\Miniredirect\\": "Classes"
         }
-    },
-    "replace": {
-        "svenjuergens/miniredirect": "self.version",
-        "typo3-ter/miniredirect": "self.version"
     },
     "extra": {
         "typo3/cms": {
