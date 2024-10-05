@@ -14,7 +14,8 @@ namespace SvenJuergens\Miniredirect\Http\Middleware;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
@@ -42,21 +43,21 @@ class MiniRedirect implements MiddlewareInterface, LoggerAwareInterface
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface $handler
      * @return ResponseInterface
-     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
-     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         // don't handle spaces in path
-        if(strpos($request->getUri()->getPath(), '%20') !== false){
+        if(str_contains((string) $request->getUri()->getPath(), '%20')){
             return $handler->handle($request);
         }
 
         // don't handle files
-        if(pathinfo($request->getUri()->getPath(), PATHINFO_EXTENSION)){
+        if(pathinfo((string) $request->getUri()->getPath(), PATHINFO_EXTENSION)){
             return $handler->handle($request);
         }
-        $originalRequestPath = urldecode($request->getUri()->getPath());
+        $originalRequestPath = urldecode((string) $request->getUri()->getPath());
         $requestPath = mb_strtolower($originalRequestPath, 'UTF-8');
         $requestPath = str_replace(['ä','ü','ö','ß'], ['ae', 'ue', 'oe', 'ss'], $requestPath);
         if ($requestPath !== $request->getUri()->getPath()) {
