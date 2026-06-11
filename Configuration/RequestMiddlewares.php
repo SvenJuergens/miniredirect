@@ -9,7 +9,7 @@ return [
             'target' => \SvenJuergens\Miniredirect\Http\Middleware\MiniRedirect::class,
             'before' => [
                 'typo3/cms-frontend/page-resolver',
-            ]
+            ],
         ],
     ],
 ];
